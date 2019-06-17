@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { Component, OnInit } from '@angular/core';
+import { EventoService } from '_services/evento.service';
 
 @Component({
-  selector: "app-eventos",
-  templateUrl: "./eventos.component.html",
-  styleUrls: ["./eventos.component.css"]
+  selector: 'app-eventos',
+  templateUrl: './eventos.component.html',
+  styleUrls: ['./eventos.component.css']
 })
 export class EventosComponent implements OnInit {
   _filtroLista: string;
@@ -13,9 +13,7 @@ export class EventosComponent implements OnInit {
   }
   set filtroLista(value: string) {
     this._filtroLista = value;
-     this.eventosFiltrados = this.filtroLista
-       ? this.filtrarEventos(this.filtroLista)
-       : this.eventos;
+    this.eventosFiltrados = this.filtroLista ? this.filtrarEventos(this.filtroLista) : this.eventos;
   }
 
   eventosFiltrados: any = [];
@@ -24,15 +22,14 @@ export class EventosComponent implements OnInit {
   imagemLargura: number = 50;
   imagemMargem: number = 2;
 
-  constructor(private http: HttpClient) {}
+  constructor(private eventoService: EventoService) {}
 
   ngOnInit() {
     this.getEventos();
   }
 
   getEventos() {
-    this.http
-      .get("http://localhost:5000/api/values")
+    this.eventoService.getEventos()
       .subscribe(
         response => (this.eventos = response),
         error => console.error(error)
