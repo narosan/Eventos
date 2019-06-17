@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { EventoService } from '_services/evento.service';
+import { Evento } from '_models/Evento';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-eventos',
@@ -7,7 +9,20 @@ import { EventoService } from '_services/evento.service';
   styleUrls: ['./eventos.component.css']
 })
 export class EventosComponent implements OnInit {
+  eventosFiltrados: Evento[];
+  eventos: Evento[];
+  mostrarImagem: boolean = false;
+  imagemLargura: 50;
+  imagemMargem: 2;
+  modalRef: BsModalRef;
+
   _filtroLista: string;
+
+  constructor(
+      private eventoService: EventoService
+    , private modalService: BsModalService
+  ) {}
+
   get filtroLista(): string {
     return this._filtroLista;
   }
@@ -16,22 +31,21 @@ export class EventosComponent implements OnInit {
     this.eventosFiltrados = this.filtroLista ? this.filtrarEventos(this.filtroLista) : this.eventos;
   }
 
-  eventosFiltrados: any = [];
-  eventos: any = [];
-  mostrarImagem: boolean = false;
-  imagemLargura: number = 50;
-  imagemMargem: number = 2;
-
-  constructor(private eventoService: EventoService) {}
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
 
   ngOnInit() {
     this.getEventos();
   }
 
   getEventos() {
-    this.eventoService.getEventos()
+    this.eventoService.getAllEventos()
       .subscribe(
-        response => (this.eventos = response),
+        (_eventos: Evento[]) => {
+          console.log(_eventos);
+          (this.eventos = _eventos);
+        },
         error => console.error(error)
       );
   }
@@ -40,7 +54,7 @@ export class EventosComponent implements OnInit {
     this.mostrarImagem = !this.mostrarImagem;
   }
 
-  filtrarEventos(filtrarPor: string): any {
+  filtrarEventos(filtrarPor: string): Evento[] {
     filtrarPor = filtrarPor.toLocaleLowerCase();
     return this.eventos.filter(
       evento => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1
