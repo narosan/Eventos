@@ -6,7 +6,6 @@
   },
   "exclude": [
     "test.ts",
-    "**/*.spec.ts",
-    "./app/eventos/eventos.component.ts"
+    "**/*.spec.ts"
   ]
 }
