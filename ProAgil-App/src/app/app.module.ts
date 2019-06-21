@@ -9,7 +9,7 @@ import { NavComponent } from './nav/nav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventoService } from '_services/evento.service';
 import { DateTimeFormatPipePipe } from '_helps/DateTimeFormatPipe.pipe';
-import { BsDropdownModule, ModalModule, TooltipModule } from 'ngx-bootstrap';
+import { BsDropdownModule, ModalModule, TooltipModule, BsDatepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
    declarations: [
@@ -26,6 +26,7 @@ import { BsDropdownModule, ModalModule, TooltipModule } from 'ngx-bootstrap';
       BsDropdownModule.forRoot(),
       ModalModule.forRoot(),
       TooltipModule.forRoot(),
+      BsDatepickerModule.forRoot(),
       FormsModule,
       ReactiveFormsModule
    ],
